@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/hekalotanya/messenger.git/static/css/main.f49b3e43.chunk.css",
-    "main.js": "/hekalotanya/messenger.git/static/js/main.03cef141.chunk.js",
-    "main.js.map": "/hekalotanya/messenger.git/static/js/main.03cef141.chunk.js.map",
-    "runtime-main.js": "/hekalotanya/messenger.git/static/js/runtime-main.fb660d8f.js",
-    "runtime-main.js.map": "/hekalotanya/messenger.git/static/js/runtime-main.fb660d8f.js.map",
-    "static/js/2.c1800888.chunk.js": "/hekalotanya/messenger.git/static/js/2.c1800888.chunk.js",
-    "static/js/2.c1800888.chunk.js.map": "/hekalotanya/messenger.git/static/js/2.c1800888.chunk.js.map",
-    "index.html": "/hekalotanya/messenger.git/index.html",
-    "static/css/main.f49b3e43.chunk.css.map": "/hekalotanya/messenger.git/static/css/main.f49b3e43.chunk.css.map",
-    "static/js/2.c1800888.chunk.js.LICENSE.txt": "/hekalotanya/messenger.git/static/js/2.c1800888.chunk.js.LICENSE.txt"
+    "main.css": "/hekalotanya/messenger/static/css/main.f49b3e43.chunk.css",
+    "main.js": "/hekalotanya/messenger/static/js/main.03cef141.chunk.js",
+    "main.js.map": "/hekalotanya/messenger/static/js/main.03cef141.chunk.js.map",
+    "runtime-main.js": "/hekalotanya/messenger/static/js/runtime-main.8fc1abe1.js",
+    "runtime-main.js.map": "/hekalotanya/messenger/static/js/runtime-main.8fc1abe1.js.map",
+    "static/js/2.c1800888.chunk.js": "/hekalotanya/messenger/static/js/2.c1800888.chunk.js",
+    "static/js/2.c1800888.chunk.js.map": "/hekalotanya/messenger/static/js/2.c1800888.chunk.js.map",
+    "index.html": "/hekalotanya/messenger/index.html",
+    "static/css/main.f49b3e43.chunk.css.map": "/hekalotanya/messenger/static/css/main.f49b3e43.chunk.css.map",
+    "static/js/2.c1800888.chunk.js.LICENSE.txt": "/hekalotanya/messenger/static/js/2.c1800888.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.fb660d8f.js",
+    "static/js/runtime-main.8fc1abe1.js",
     "static/js/2.c1800888.chunk.js",
     "static/css/main.f49b3e43.chunk.css",
     "static/js/main.03cef141.chunk.js"
