@@ -11,11 +11,6 @@ export const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    // eslint-disable-next-line
-    console.log(users);
-  }, [users]);
-
   return (
     <div className={styles.app}>
       <header className={styles.appHeader}>
