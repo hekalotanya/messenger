@@ -16,13 +16,15 @@ const initServer = async () => {
   app.get('/users', async (req, res) => {
     const users = await prisma.users.findMany();
 
+    console.log(users);
+
     await prisma.$disconnect();
 
     res.send(users);
   });
 
   return {
-    server, db,
+    server,
   };
 };
   
