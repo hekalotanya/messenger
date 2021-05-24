@@ -35,7 +35,7 @@ const initServer = async () => {
     const { id } = req.params
 
     const chat = await prisma.chats.findUnique({
-      where: { id }
+      where: { id: +id }
     });
 
     await prisma.$disconnect();
@@ -47,9 +47,9 @@ const initServer = async () => {
     const { id } = req.params;
     const { message, authorId } = req.body
 
-    const message = await prisma.chatMessages.create({
+    const createdMessage = await prisma.chatMessages.create({
       data: {
-        chatId: id,
+        chatId: +id,
         authorId,
         message,
       }
@@ -57,7 +57,7 @@ const initServer = async () => {
 
     await prisma.$disconnect();
 
-    res.send(message);
+    res.send(createdMessage);
   });
 
   app.post('/sign-up', async (req, res) => {
