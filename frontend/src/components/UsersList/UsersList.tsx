@@ -26,7 +26,7 @@ export const UsersList: FC<Props> = ({ user }) => {
 
   return (
     <ul>
-      {!loading && users.map((u) => (
+      {!loading && users.length > 0 && users.map((u) => (
         <li key={u.id}>
           {u.username}
         </li>

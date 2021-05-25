@@ -10,6 +10,7 @@ import { UserType } from './typedefs/User';
 import { Chats } from './components/Chats';
 import { SignIn } from './components/SignIn';
 import { getAuthUser } from './helpers/getAuthUser';
+import { UsersList } from './components/UsersList';
 
 export const App = () => {
   const [user, setUser] = useState<UserType | null>(null);
@@ -89,6 +90,13 @@ export const App = () => {
             user={user}
             setUser={setUser}
           />
+        </Route>
+        <Route path="/users">
+          {user && (
+            <UsersList
+              user={user}
+            />
+          )}
         </Route>
         <Route path="/chats">
           <Chats

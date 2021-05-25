@@ -67,7 +67,7 @@ const initServer = async () => {
       const users = await prisma.users.findMany({
         where: {
           NOT: {
-            id: userId,
+            id: +userId,
           },
         },
         orderBy: [
