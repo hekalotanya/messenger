@@ -47,10 +47,10 @@ const initServer = async () => {
     const { token } = req.params
 
     try {
-      const user = await prisma.users.findUnique({
+      const user = await prisma.users.findFirst({
         where: { token }
       });
-      
+
       res.send(user);
     } catch (e) {
       console.log(e);
@@ -106,7 +106,7 @@ const initServer = async () => {
 
     let user = null;
     try {
-      user = await prisma.users.findUnique({
+      user = await prisma.users.findFirst({
         where: {
           username,
           password,

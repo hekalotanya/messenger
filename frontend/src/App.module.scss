@@ -4,11 +4,15 @@
   text-align: center;
 }
 
+.header {
+  display: inline-block;
+  font-size: 32px;
+}
+
 .appHeader {
   background-color: #282c34;
   height: $header-height;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(16px);
@@ -17,4 +21,12 @@
 
 .table {
   border: 1px solid black;
+}
+
+.logOutButton {
+  display: inline-block;
+  justify-self: flex-end;
+  color: red;
+  border: none;
+  padding: 16px 8px;
 }

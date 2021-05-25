@@ -1,7 +1,7 @@
 import { UserType } from '../typedefs/User';
 import { API_URL } from './helpers';
 
-interface SignIn{
+interface SignIn {
   (username: string, password: string): Promise<UserType>;
 }
 

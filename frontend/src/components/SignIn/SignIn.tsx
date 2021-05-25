@@ -42,6 +42,9 @@ export const SignIn: FC<Props> = ({ user, setUser }) => {
     if (username.trim() && password.trim()) {
       userFromServer = await signIn(username, password);
 
+      // eslint-disable-next-line
+      console.log(userFromServer);
+
       if (!Object.keys(userFromServer).length) {
         setError(true);
         setState({
@@ -91,7 +94,7 @@ export const SignIn: FC<Props> = ({ user, setUser }) => {
           className={styles.button}
           type="submit"
         >
-          sign up
+          sign in
         </button>
       </form>
       {user && <Redirect to="/users" />}
