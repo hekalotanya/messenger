@@ -77,6 +77,7 @@ const initServer = async () => {
       });
 
     } catch (e) {
+      console.log(e);
       res.send(new Error(e));
     } finally {
       await prisma.$disconnect();
@@ -101,6 +102,7 @@ const initServer = async () => {
         token: user.token,
       });
     } catch (e) {
+      console.log(e);
       res.send(new Error(e));
     } finally {
       await prisma.$disconnect();
