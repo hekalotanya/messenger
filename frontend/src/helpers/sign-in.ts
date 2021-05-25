@@ -1,14 +1,14 @@
 import { API_URL } from './helpers';
 
-interface SignUp {
+interface SignIn{
   (username: string, password: string): Promise<string>;
 }
 
-export const signUp: SignUp = async (username, password) => {
+export const signIn: SignIn = async (username, password) => {
   let result = null;
 
   try {
-    const response = await fetch(`${API_URL}/sign-up`, {
+    const response = await fetch(`${API_URL}/sign-in`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

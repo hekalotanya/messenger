@@ -1,7 +1,16 @@
 module.exports = {
-  extends: '@mate-academy/eslint-config-react-typescript',
+  extends: [
+    '@mate-academy/eslint-config-react-typescript',
+    'plugin:react/recommended',
+  ],
   rules: {
-    '@typescript-eslint/camelcase': 'off',
-    'react/react-in-jsx-scope': 'off',
+    'no-proto': 0,
+    'no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/camelcase': 0,
   },
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint',
+  ],
 };

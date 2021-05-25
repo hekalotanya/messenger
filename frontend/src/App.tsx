@@ -1,43 +1,40 @@
-import { useState, useEffect } from 'react';
-import { getUsers } from './helpers/getUsers';
+import { useState } from 'react';
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 import styles from './App.module.scss';
+import { SignUp } from './components/sign-up';
+import { UserType } from './typedefs/User';
+import { Chats } from './components/chats';
 
 export const App = () => {
-  const [users, setUsers] = useState <any[] | null>(null);
-
-  useEffect(() => {
-    getUsers().then((data) => {
-      setUsers(data);
-    });
-  }, []);
+  const [user, setUser] = useState <UserType | null>(null);
 
   return (
-    <div className={styles.app}>
-      <header className={styles.appHeader}>
-        <h1>
-          Simple messenger
-        </h1>
-      </header>
+    <Router>
+      <div className={styles.app}>
+        <header className={styles.appHeader}>
+          <h1>
+            Simple messenger
+          </h1>
+        </header>
+      </div>
 
-      <h2>users:</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>createdAt</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users?.map(user => (
-            <tr>
-              <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.createdAt}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <Switch>
+          <Route path="/sign-up">
+            <SignUp
+              user={user}
+              setUser={setUser}
+            />
+          </Route>
+          <Route path="/chats">
+            <Chats
+              userId={user?.id}
+            />
+          </Route>
+        </Switch>
+    </Router>
   );
 };
