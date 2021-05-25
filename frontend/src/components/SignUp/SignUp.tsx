@@ -1,4 +1,8 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import {
+  ChangeEvent, Dispatch, FC,
+  FormEvent, SetStateAction, useState,
+} from 'react';
+import { Redirect } from 'react-router-dom';
 import { signUp } from '../../helpers/sign-up';
 import { UserType } from '../../typedefs/User';
 import styles from './SignUp.module.scss';
@@ -9,15 +13,14 @@ interface Props {
 }
 
 export const SignUp: FC<Props> = ({ user, setUser }) => {
-  console.log(user, setUser);
-  
   const [state, setState] = useState<{
-    username: string | null;
-    password: string | null;
+    username: string;
+    password: string;
   }>({
-    username: null,
-    password: null,
-  })
+    username: '',
+    password: '',
+  });
+  const [error, setError] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,20 +28,36 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
     setState(prev => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+    setError(false);
+  };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     const { username, password } = state;
 
-    let user = null;
+    let userFromServer = null;
 
-    if (username && password) {
-      user = await signUp(username, password);
+    if (username.trim() && password.trim()) {
+      userFromServer = await signUp(username, password);
 
-      console.log(user);
+      if (!Object.keys(userFromServer).length) {
+        setError(true);
+        setState({
+          username: '',
+          password: '',
+        });
+
+        return;
+      }
+
+      setUser(userFromServer);
+      localStorage.setItem('token', userFromServer.token);
+      setState({
+        username: '',
+        password: '',
+      });
     }
   };
 
@@ -54,6 +73,7 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
           type="text"
           name="username"
           placeholder="username"
+          value={state.username}
         />
 
         <input
@@ -62,7 +82,10 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
           type="password"
           name="password"
           placeholder="password"
+          value={state.password}
         />
+
+        {error && <p className={styles.error}>Such user already exists</p>}
 
         <button
           className={styles.button}
@@ -71,6 +94,7 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
           sign up
         </button>
       </form>
+      {user && <Redirect to="/users" />}
     </main>
   );
 };

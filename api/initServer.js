@@ -43,6 +43,23 @@ const initServer = async () => {
     res.send(chat);
   });
 
+  app.get('/user/:token', async (req, res) => {
+    const { token } = req.params
+
+    try {
+      const user = await prisma.users.findUnique({
+        where: { token }
+      });
+      
+      res.send(user);
+    } catch (e) {
+      console.log(e);
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
   app.post('/chat/:id', async (req, res) => {
     const { id } = req.params;
     const { message, authorId } = req.body

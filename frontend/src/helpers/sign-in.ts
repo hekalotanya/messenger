@@ -1,7 +1,8 @@
+import { UserType } from '../typedefs/User';
 import { API_URL } from './helpers';
 
 interface SignIn{
-  (username: string, password: string): Promise<string>;
+  (username: string, password: string): Promise<UserType>;
 }
 
 export const signIn: SignIn = async (username, password) => {

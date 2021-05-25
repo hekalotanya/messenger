@@ -6,8 +6,10 @@ module.exports = {
   rules: {
     'no-proto': 0,
     'no-unused-vars': 0,
+    'react/prop-types': 0,
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/camelcase': 0,
+    'react/react-in-jsx-scope': 0,
   },
   parser: '@typescript-eslint/parser',
   plugins: [
