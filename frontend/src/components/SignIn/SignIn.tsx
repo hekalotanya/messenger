@@ -2,10 +2,10 @@ import {
   ChangeEvent, Dispatch, FC,
   FormEvent, SetStateAction, useState,
 } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 import { signIn } from '../../helpers/sign-in';
 import { UserType } from '../../typedefs/User';
-import styles from './SignIn.module.scss';
+import styles from '../SignUp/SignUp.module.scss';
 
 interface Props {
   user: null | UserType
@@ -42,9 +42,6 @@ export const SignIn: FC<Props> = ({ user, setUser }) => {
     if (username.trim() && password.trim()) {
       userFromServer = await signIn(username, password);
 
-      // eslint-disable-next-line
-      console.log(userFromServer);
-
       if (!Object.keys(userFromServer).length) {
         setError(true);
         setState({
@@ -55,17 +52,19 @@ export const SignIn: FC<Props> = ({ user, setUser }) => {
         return;
       }
 
-      setUser(userFromServer);
-      localStorage.setItem('token', userFromServer.token);
       setState({
         username: '',
         password: '',
       });
+
+      localStorage.setItem('token', userFromServer.token);
+      setUser(userFromServer);
     }
   };
 
   return (
-    <main>
+    <main className={styles.container}>
+      <h1>Sign in</h1>
       <form
         className={styles.form}
         onSubmit={handleSubmit}
@@ -93,10 +92,18 @@ export const SignIn: FC<Props> = ({ user, setUser }) => {
         <button
           className={styles.button}
           type="submit"
+          disabled={!state.password.trim() || !state.username.trim()}
         >
           sign in
         </button>
       </form>
+
+      <NavLink
+        className={styles.link}
+        to="/sign-up"
+      >
+        Create an account
+      </NavLink>
       {user && <Redirect to="/users" />}
     </main>
   );

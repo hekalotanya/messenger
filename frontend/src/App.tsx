@@ -28,8 +28,12 @@ export const App = () => {
       const token = localStorage.getItem('token');
 
       if (token) {
+        console.log('getting user');
         getUser(token)
-          .then(userFromServer => setUser(userFromServer));
+          .then(userFromServer => {
+            setUser(userFromServer);
+            console.log('user setted');
+          });
       }
     }
   });
@@ -43,6 +47,22 @@ export const App = () => {
           </h1>
 
           {user && (
+            <div
+              className={styles.userInfo}
+              title="currently you are logged in as"
+            >
+              <img
+                src="https://www.svgrepo.com/show/60372/profile-user.svg"
+                alt="profile pic"
+                className={styles.profileIcon}
+              />
+              <span>
+                {user.username}
+              </span>
+            </div>
+          )}
+
+          {user && (
             <button
               className={styles.logOutButton}
               type="button"
@@ -51,7 +71,7 @@ export const App = () => {
                 localStorage.removeItem('token');
               }}
             >
-              sign out
+              Log out
             </button>
           )}
         </header>

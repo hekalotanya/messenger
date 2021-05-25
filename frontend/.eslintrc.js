@@ -10,6 +10,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/camelcase': 0,
     'react/react-in-jsx-scope': 0,
+    'no-console': 0,
   },
   parser: '@typescript-eslint/parser',
   plugins: [

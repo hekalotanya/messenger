@@ -2,7 +2,7 @@ import {
   ChangeEvent, Dispatch, FC,
   FormEvent, SetStateAction, useState,
 } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 import { signUp } from '../../helpers/sign-up';
 import { UserType } from '../../typedefs/User';
 import styles from './SignUp.module.scss';
@@ -52,17 +52,19 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
         return;
       }
 
-      setUser(userFromServer);
-      localStorage.setItem('token', userFromServer.token);
       setState({
         username: '',
         password: '',
       });
+
+      localStorage.setItem('token', userFromServer.token);
+      setUser(userFromServer);
     }
   };
 
   return (
-    <main>
+    <main className={styles.container}>
+      <h1>Sign up</h1>
       <form
         className={styles.form}
         onSubmit={handleSubmit}
@@ -90,10 +92,18 @@ export const SignUp: FC<Props> = ({ user, setUser }) => {
         <button
           className={styles.button}
           type="submit"
+          disabled={!state.password.trim() || !state.username.trim()}
         >
           sign up
         </button>
       </form>
+
+      <NavLink
+        className={styles.link}
+        to="/sign-in"
+      >
+        Have an account?
+      </NavLink>
       {user && <Redirect to="/users" />}
     </main>
   );

@@ -19,10 +19,10 @@ const initServer = async () => {
 
     const chats = await prisma.chats.findMany({
       where: {
-        OR: {
-          recipient_id: userId,
-          sender_id: userId,
-        }
+        OR: [
+          { recipientId: userId },
+          { senderId: userId },
+        ],
       }
     });
 
@@ -49,6 +49,32 @@ const initServer = async () => {
     try {
       const user = await prisma.users.findFirst({
         where: { token }
+      });
+
+      res.send(user);
+    } catch (e) {
+      console.log(e);
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  app.get('/users/:userId', async (req, res) => {
+    const { userId } = req.params
+
+    try {
+      const users = await prisma.users.findMany({
+        where: {
+          NOT: {
+            id: userId,
+          },
+        },
+        orderBy: [
+          {
+            createdAt: 'desc',
+          },
+        ],
       });
 
       res.send(user);
