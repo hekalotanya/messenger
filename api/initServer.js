@@ -77,7 +77,7 @@ const initServer = async () => {
         ],
       });
 
-      res.send(user);
+      res.send(users);
     } catch (e) {
       console.log(e);
       res.send(new Error(e));
