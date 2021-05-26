@@ -75,6 +75,11 @@ const initServer = async () => {
             createdAt: 'desc',
           },
         ],
+        select: {
+          id: true,
+          username: true,
+          createdAt: true,
+        }
       });
 
       res.send(users);
@@ -110,14 +115,15 @@ const initServer = async () => {
         data: {
           token: uuidv4(),
           ...req.body,
+        },
+        select: {
+          id: true,
+          username: true,
+          token: true,
         }
       });
 
-      res.json({
-        id: user.id,
-        username: user.username,
-        token: user.token,
-      });
+      res.json(user);
 
     } catch (e) {
       console.log(e);
@@ -136,14 +142,15 @@ const initServer = async () => {
         where: {
           username,
           password,
+        },
+        select: {
+          id: true,
+          username: true,
+          token: true,
         }
       });
 
-      res.json({
-        id: user.id,
-        username: user.username,
-        token: user.token,
-      });
+      res.json(user);
     } catch (e) {
       console.log(e);
       res.send(new Error(e));
