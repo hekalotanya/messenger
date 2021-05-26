@@ -3,6 +3,7 @@ import {
 } from 'react';
 import { getUsers } from '../../helpers/getUsers';
 import { UserType } from '../../typedefs/User';
+import styles from './UsersList.module.scss';
 
 interface Props {
   user: UserType
@@ -10,7 +11,7 @@ interface Props {
 
 export const UsersList: FC<Props> = ({ user }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<UserType[]>([]);
+  const [users, setUsers] = useState<Omit<UserType, 'token'>[]>([]);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -25,10 +26,22 @@ export const UsersList: FC<Props> = ({ user }) => {
   }, [fetchUsers]);
 
   return (
-    <ul>
+    <ul className={styles.list}>
       {!loading && users.length > 0 && users.map((u) => (
-        <li key={u.id}>
+        <li
+          className={styles.list__item}
+          key={u.id}
+        >
           {u.username}
+          <button
+            className={styles.createChatButton}
+            type="button"
+            onClick={() => {
+              console.log('create chat');
+            }}
+          >
+            <img src="https://www.svgrepo.com/show/59167/chat.svg" alt="send message" />
+          </button>
         </li>
       ))}
     </ul>

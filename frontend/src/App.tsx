@@ -3,6 +3,7 @@ import {
   HashRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import styles from './App.module.scss';
 import { SignUp } from './components/SignUp';
@@ -14,28 +15,20 @@ import { UsersList } from './components/UsersList';
 
 export const App = () => {
   const [user, setUser] = useState<UserType | null>(null);
+  const usersToken = localStorage.getItem('token');
 
   const getUser = useCallback(
     async (token: string) => {
       const userFromServer = await getAuthUser(token);
 
-      return userFromServer;
+      setUser(userFromServer);
     },
     [],
   );
 
   useEffect(() => {
-    if (!user) {
-      const token = localStorage.getItem('token');
-
-      if (token) {
-        console.log('getting user');
-        getUser(token)
-          .then(userFromServer => {
-            setUser(userFromServer);
-            console.log('user setted');
-          });
-      }
+    if (!user && usersToken) {
+      getUser(usersToken);
     }
   });
 
@@ -91,6 +84,7 @@ export const App = () => {
             setUser={setUser}
           />
         </Route>
+        {!user && !usersToken && <Redirect to="/sign-in" />}
         <Route path="/users">
           {user && (
             <UsersList
