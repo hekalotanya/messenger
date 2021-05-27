@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
+  Link,
 } from 'react-router-dom';
 import styles from './App.module.scss';
 import { SignUp } from './components/SignUp';
@@ -39,6 +40,23 @@ export const App = () => {
           <h1 className={styles.header}>
             Simple messenger
           </h1>
+
+          {user && (
+            <nav className={styles.navigation}>
+              <Link
+                className={styles.link}
+                to="/users"
+              >
+                users
+              </Link>
+              <Link
+                className={styles.link}
+                to="/chats"
+              >
+                chats
+              </Link>
+            </nav>
+          )}
 
           {user && (
             <div

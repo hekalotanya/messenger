@@ -13,6 +13,7 @@ interface Props {
 export const UsersList: FC<Props> = ({ user }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<Omit<UserType, 'token'>[]>([]);
+  const [errors, setErrors] = useState<Record<string, any>>({});
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -35,15 +36,25 @@ export const UsersList: FC<Props> = ({ user }) => {
             className={styles.list__item}
             key={u.id}
           >
-            {u.username}
+            {`${u.username}(${u.id})`}
+            {errors[`${u.id}`] && (
+              <span className={styles.error}>
+                you already have a chat with this user
+              </span>
+            )}
             <button
               className={styles.createChatButton}
               type="button"
+              title="create chat"
               onClick={async () => {
-                console.log('create');
                 const chat = await createChat(user.id, u.id);
 
-                console.log(chat);
+                if (!Object.keys(chat).length) {
+                  setErrors(prev => ({
+                    ...prev,
+                    [u.id]: true,
+                  }));
+                }
               }}
             >
               <img src="https://www.svgrepo.com/show/59167/chat.svg" alt="send message" />
