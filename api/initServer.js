@@ -40,7 +40,7 @@ const initServer = async () => {
         recipientId,
       },
       select: {
-        id,
+        id: true,
       }
     });
 
