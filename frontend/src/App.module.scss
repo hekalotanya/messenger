@@ -4,17 +4,53 @@
   text-align: center;
 }
 
+.header {
+  display: inline-block;
+  font-size: 32px;
+}
+
 .appHeader {
+  border-radius: 0 0 8px 8px;
+  padding: 16px 24px;
   background-color: #282c34;
   height: $header-height;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(16px);
   color: white;
 }
 
 .table {
   border: 1px solid black;
+}
+
+.logOutButton {
+  margin-left: 24px;
+  font-size: 16px;
+  background: none;
+  display: inline-block;
+  justify-self: flex-end;
+  color: red;
+  border: none;
+  padding: 16px 8px;
+  cursor: pointer;
+}
+
+.userInfo {
+  padding: 0 16px;
+  margin-left: auto;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  transform: translateX(20px);
+  color: grey;
+  background-color: papayawhip;
+}
+
+.profileIcon {
+  margin-right: 24px;
+  width: 24px;
+  height: 24px;
 }

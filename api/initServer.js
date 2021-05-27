@@ -19,10 +19,10 @@ const initServer = async () => {
 
     const chats = await prisma.chats.findMany({
       where: {
-        OR: {
-          recipient_id: userId,
-          sender_id: userId,
-        }
+        OR: [
+          { recipientId: userId },
+          { senderId: userId },
+        ],
       }
     });
 
@@ -41,6 +41,54 @@ const initServer = async () => {
     await prisma.$disconnect();
 
     res.send(chat);
+  });
+
+  app.get('/user/:token', async (req, res) => {
+    const { token } = req.params
+
+    try {
+      const user = await prisma.users.findFirst({
+        where: { token }
+      });
+
+      res.send(user);
+    } catch (e) {
+      console.log(e);
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  app.get('/users/:userId', async (req, res) => {
+    const { userId } = req.params
+
+    try {
+      const users = await prisma.users.findMany({
+        where: {
+          NOT: {
+            id: +userId,
+          },
+        },
+        orderBy: [
+          {
+            createdAt: 'desc',
+          },
+        ],
+        select: {
+          id: true,
+          username: true,
+          createdAt: true,
+        }
+      });
+
+      res.send(users);
+    } catch (e) {
+      console.log(e);
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
   });
 
   app.post('/chat/:id', async (req, res) => {
@@ -67,16 +115,18 @@ const initServer = async () => {
         data: {
           token: uuidv4(),
           ...req.body,
+        },
+        select: {
+          id: true,
+          username: true,
+          token: true,
         }
       });
 
-      res.json({
-        id: user.id,
-        username: user.username,
-        token: user.token,
-      });
+      res.json(user);
 
     } catch (e) {
+      console.log(e);
       res.send(new Error(e));
     } finally {
       await prisma.$disconnect();
@@ -88,19 +138,21 @@ const initServer = async () => {
 
     let user = null;
     try {
-      user = await prisma.users.findUnique({
+      user = await prisma.users.findFirst({
         where: {
           username,
           password,
+        },
+        select: {
+          id: true,
+          username: true,
+          token: true,
         }
       });
 
-      res.json({
-        id: user.id,
-        username: user.username,
-        token: user.token,
-      });
+      res.json(user);
     } catch (e) {
+      console.log(e);
       res.send(new Error(e));
     } finally {
       await prisma.$disconnect();
