@@ -14,8 +14,8 @@ const initServer = async () => {
   app.use(express.json());
   app.use(express.static('build'));
 
-  app.get('/chats', async (req, res) => {
-    const { userId } = req.body;
+  app.get('/chats/:userId', async (req, res) => {
+    const { userId } = req.params;
 
     const chats = await prisma.chats.findMany({
       where: {
