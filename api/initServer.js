@@ -20,8 +20,8 @@ const initServer = async () => {
     const chats = await prisma.chats.findMany({
       where: {
         OR: [
-          { recipientId: userId },
-          { senderId: userId },
+          { recipientId: +userId },
+          { senderId: +userId },
         ],
       }
     });
