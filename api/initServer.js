@@ -37,14 +37,8 @@ const initServer = async () => {
     try {
       const existingChat = await prisma.findFirst({
         where: {
-          AND: [
-            {
-              senderId: recipientId,
-            },
-            {
-              recipientId: senderId,
-             },
-          ],
+          senderId: recipientId,
+          recipientId: senderId,
         }
       })
 
