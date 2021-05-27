@@ -34,19 +34,23 @@ const initServer = async () => {
   app.post('/chats', async (req, res) => {
     const { senderId, recipientId  } = req.body;
 
-    const chat = await prisma.chats.create({
-      data: {
-        senderId,
-        recipientId,
-      },
-      select: {
-        id: true,
-      }
-    });
+    try {
+      const chat = await prisma.chats.create({
+        data: {
+          senderId,
+          recipientId,
+        },
+        select: {
+          id: true,
+        }
+      });
 
-    await prisma.$disconnect();
-
-    res.send(chat);
+      res.send(chat);
+    } catch (e) {
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
   });
 
   app.get('/chat/:id', async (req, res) => {
