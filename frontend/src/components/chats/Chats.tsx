@@ -38,12 +38,12 @@ export const Chats: FC<Props> = ({ userId }) => {
 
       setMessages(chatMessages);
     }
-  }, []);
+  }, [currentChatId]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       fetchChatMessages();
-    }, 1000);
+    }, 500);
 
     return () => {
       clearInterval(interval);
@@ -66,7 +66,9 @@ export const Chats: FC<Props> = ({ userId }) => {
             {!loading && chats.map((chat) => (
               <li
                 aria-hidden
-                className={styles.listItem}
+                className={cn(styles.listItem, {
+                  [styles.selectedChat]: currentChatId === chat.id,
+                })}
                 key={chat.id}
                 onClick={() => {
                   setCurrentChatId(chat.id);
@@ -81,7 +83,9 @@ export const Chats: FC<Props> = ({ userId }) => {
           [styles.noChatSelected]: currentChatId === 0,
         })}
         >
-          {!currentChatId ? <h3>select a chat</h3> : <h3>{`Selected chat #${currentChatId}`}</h3>}
+          {!currentChatId
+            ? <h3>select a chat</h3>
+            : <h3 className={styles.title}>{`Selected chat #${currentChatId}`}</h3>}
 
           {currentChatId !== 0 && (
             <div className={styles.messagesContainer}>
@@ -90,7 +94,7 @@ export const Chats: FC<Props> = ({ userId }) => {
                   <li
                     key={chatMessage.id}
                     className={cn(styles.messageItem, {
-                      [styles.messageFrom]: chatMessage.authorId === userId,
+                      [styles.myMessage]: chatMessage.authorId === userId,
                     })}
                   >
                     {chatMessage.message}
@@ -101,7 +105,16 @@ export const Chats: FC<Props> = ({ userId }) => {
           )}
 
           {currentChatId !== 0 && (
-            <div className={styles.inputContainer}>
+
+            <form
+              className={styles.inputContainer}
+              onSubmit={async (e) => {
+                e.preventDefault();
+                await createChatMessage(userId, currentChatId, message);
+
+                setMessage('');
+              }}
+            >
               <input
                 className={styles.messageInput}
                 value={message}
@@ -110,17 +123,13 @@ export const Chats: FC<Props> = ({ userId }) => {
               />
 
               <button
-                type="button"
+                type="submit"
                 className={styles.sendButton}
-                onClick={async () => {
-                  await createChatMessage(userId, currentChatId, message);
-
-                  setMessage('');
-                }}
               >
                 send
               </button>
-            </div>
+            </form>
+
           )}
         </main>
       </div>

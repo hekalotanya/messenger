@@ -7,6 +7,12 @@
   min-height: calc(100vh - 60px);
 }
 
+.title {
+  margin: 16px 0;
+  font-size: 24px;
+  line-height: 24px;
+}
+
 .chatsList {
   flex-basis: 30%;
   border-right: 2px solid black;
@@ -33,6 +39,10 @@
   &:not(:last-child) {
     margin-bottom: 12px;
   }
+}
+
+.selectedChat {
+  border: 1px solid red;
 }
 
 .chat {
@@ -75,6 +85,38 @@
     background-color: darken(cornflowerblue, 10%);
   }
 }
+
+.messagesContainer {
+  height: calc(100vh - 200px);
+  overflow-y: scroll;
+}
+
+.messagesList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 32px;
+}
+
+.messageItem {
+  padding: 16px 24px;
+  background-color: lighten(darkseagreen, 10%);
+  border-radius: 8px;
+  
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.myMessage {
+  align-self: flex-end;
+  background-color: lighten(darkorchid, 30%);
+}
+
+
+
+
 
 
 

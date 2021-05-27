@@ -35,6 +35,26 @@ const initServer = async () => {
     const { senderId, recipientId  } = req.body;
 
     try {
+      const existingChat = await prisma.findFirst({
+        where: {
+          OR: [
+            {
+              senderId,
+              recipientId,
+            },
+            {
+              recipientId: senderId,
+              senderId: recipientId,
+             },
+          ],
+        }
+      })
+
+      if (existingChat) {
+        res.send(new Error('Chat exists'));
+        return;
+      }
+
       const chat = await prisma.chats.create({
         data: {
           senderId,
