@@ -23,7 +23,7 @@ const initServer = async () => {
           { recipientId: +userId },
           { senderId: +userId },
         ],
-      }
+      },
     });
 
     await prisma.$disconnect();
@@ -53,16 +53,21 @@ const initServer = async () => {
     }
   });
 
-  app.get('/chat/:id', async (req, res) => {
-    const { id } = req.params
+  app.get('/chat/:chatId', async (req, res) => {
+    const { chatId } = req.params
 
-    const chat = await prisma.chats.findUnique({
-      where: { id: +id }
+    const messages = await prisma.chatMessages.findMany({
+      where: { chatId: +chatId },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     await prisma.$disconnect();
 
-    res.send(chat);
+    res.send(messages);
   });
 
   app.get('/user/:token', async (req, res) => {
