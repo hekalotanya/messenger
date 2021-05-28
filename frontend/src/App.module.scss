@@ -1,5 +1,9 @@
 @import 'style/utils';
 
+* {
+  box-sizing: border-box;
+}
+
 .app {
   text-align: center;
 }
@@ -25,6 +29,18 @@
   border: 1px solid black;
 }
 
+.navigation {
+  margin-left: auto;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  gap: 24px;
+}
+
+.link {
+  color: white;
+}
+
 .logOutButton {
   margin-left: 24px;
   font-size: 16px;
@@ -39,7 +55,6 @@
 
 .userInfo {
   padding: 0 16px;
-  margin-left: auto;
   border-radius: 4px;
   display: flex;
   align-items: center;

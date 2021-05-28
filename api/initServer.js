@@ -14,16 +14,16 @@ const initServer = async () => {
   app.use(express.json());
   app.use(express.static('build'));
 
-  app.get('/chats', async (req, res) => {
-    const { userId } = req.body;
+  app.get('/chats/:userId', async (req, res) => {
+    const { userId } = req.params;
 
     const chats = await prisma.chats.findMany({
       where: {
         OR: [
-          { recipientId: userId },
-          { senderId: userId },
+          { recipientId: +userId },
+          { senderId: +userId },
         ],
-      }
+      },
     });
 
     await prisma.$disconnect();
@@ -31,16 +31,55 @@ const initServer = async () => {
     res.send(chats);
   });
 
-  app.get('/chat/:id', async (req, res) => {
-    const { id } = req.params
+  app.post('/chats', async (req, res) => {
+    const { senderId, recipientId  } = req.body;
 
-    const chat = await prisma.chats.findUnique({
-      where: { id: +id }
+    try {
+      const existingChat = await prisma.chats.findFirst({
+        where: {
+          senderId: recipientId,
+          recipientId: senderId,
+        }
+      })
+
+      if (existingChat) {
+        res.send(new Error('Chat exists'));
+        return;
+      }
+
+      const chat = await prisma.chats.create({
+        data: {
+          senderId,
+          recipientId,
+        },
+        select: {
+          id: true,
+        }
+      });
+
+      res.send(chat);
+    } catch (e) {
+      res.send(new Error(e));
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  app.get('/chat/:chatId', async (req, res) => {
+    const { chatId } = req.params
+
+    const messages = await prisma.chatMessages.findMany({
+      where: { chatId: +chatId },
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+      ],
     });
 
     await prisma.$disconnect();
 
-    res.send(chat);
+    res.send(messages);
   });
 
   app.get('/user/:token', async (req, res) => {

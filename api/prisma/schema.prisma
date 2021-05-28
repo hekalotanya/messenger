@@ -38,4 +38,6 @@ model chats {
   users_chats_recipient_idTousers users          @relation("chats_recipient_idTousers", fields: [recipientId], references: [id])
   users_chats_sender_idTousers    users          @relation("chats_sender_idTousers", fields: [senderId], references: [id])
   chat_messages                   chatMessages[]
+
+  @@unique([senderId, recipientId], name: "chats_sender_id_recipient_id_key")
 }
