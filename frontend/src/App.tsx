@@ -103,6 +103,9 @@ export const App = () => {
           />
         </Route>
         {!user && !usersToken && <Redirect to="/sign-in" />}
+        <Route path="/" exact>
+          <Redirect to="/users" />
+        </Route>
         <Route path="/users">
           {user && (
             <UsersList
