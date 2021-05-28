@@ -54,7 +54,6 @@ export const Chats: FC<Props> = ({ userId }) => {
 
   useEffect(() => {
     if (lastMessageRef.current) {
-      console.log(lastMessageRef.current);
       lastMessageRef.current.scrollIntoView({
         behavior: 'smooth',
       });
