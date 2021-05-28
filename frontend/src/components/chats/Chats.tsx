@@ -1,5 +1,6 @@
 import {
   FC, useState, useEffect, useCallback,
+  useRef,
 } from 'react';
 import cn from 'classnames';
 import { getChats } from '../../helpers/getChats';
@@ -19,6 +20,7 @@ export const Chats: FC<Props> = ({ userId }) => {
   const [currentChatId, setCurrentChatId] = useState(0);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const lastMessageRef = useRef<HTMLLIElement | null>(null);
 
   const fetchChats = useCallback(async () => {
     if (!userId) {
@@ -49,6 +51,15 @@ export const Chats: FC<Props> = ({ userId }) => {
       clearInterval(interval);
     };
   });
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      console.log(lastMessageRef.current);
+      lastMessageRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+  }, [lastMessageRef.current]);
 
   useEffect(() => {
     fetchChats();
@@ -90,8 +101,9 @@ export const Chats: FC<Props> = ({ userId }) => {
           {currentChatId !== 0 && (
             <div className={styles.messagesContainer}>
               <ul className={styles.messagesList}>
-                {messages.map(chatMessage => (
+                {messages.map((chatMessage, i, arr) => (
                   <li
+                    ref={(i === arr.length - 1) ? lastMessageRef : null}
                     key={chatMessage.id}
                     className={cn(styles.messageItem, {
                       [styles.myMessage]: chatMessage.authorId === userId,
